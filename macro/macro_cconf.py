@@ -23,4 +23,19 @@ concconf = concconf.reset_index()
 concconf = concconf.set_index('TRADE_DATE')
 concconf = concconf.resample('Q').mean()
 
-concconf.info()
+x = np.array(concconf['CONCCONF Index'])
+ccnorm = preprocessing.normalize([x])
+ccnorm = ccnorm.reshape(-1,1)
+
+confnorm = concconf
+confnorm['CONCCONF Index Normalized'] = ''
+confnorm['CONCCONF Index Normalized'] = ccnorm
+confnorm.info()
+
+#print(ccnorm)
+#print(confnorm)
+
+ax = plt.gca()
+#concconf.plot(kind='line', color='blue', ax=ax)
+confnorm.plot(kind='line', y='CONCCONF Index Normalized', color='green', ax=ax)
+plt.show()
