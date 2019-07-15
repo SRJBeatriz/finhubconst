@@ -1,5 +1,6 @@
 from bloomberg import BBG
 import pandas as pd
+import scipy
 import matplotlib.pyplot as plt
 
 bbg = BBG()
@@ -17,27 +18,15 @@ df = bbg.fetch_series(securities=['SPX Index', 'IBOV Index'],
 
 volSPX_90 = pd.DataFrame(data=df['SPX Index'])
 volSPX_90 = volSPX_90.droplevel('FIELD')
+volSPX_90 = volSPX_90.resample('Q').mean()
 
 volIBOV_90 = pd.DataFrame(data=df['IBOV Index'])
 volIBOV_90 = volIBOV_90.droplevel('FIELD')
+volIBOV_90 = volIBOV_90.resample('Q').mean()
 
+ax = plt.gca()
 
-print(volSPX_90)
-print(volIBOV_90)
+volSPX_90.plot(kind='line', color='blue', ax=ax)
+volIBOV_90.plot(kind='line', color='green', ax=ax)
 
-# Conference Board Consumer Confidence SA 1985=100
-#   Original Date: '28-fev-1967'
-
-start_date = pd.to_datetime('30-jan-2015')
-end_date = pd.to_datetime('30-jun-2019')
-
-df = bbg.fetch_series(securities=['CONCCONF Index'],
-                      fields=['PX_LAST'],
-                      startdate=start_date,
-                      enddate=end_date)
-
-concconf = pd.DataFrame(data=df)
-concconf = concconf.droplevel(0)
-concconf = concconf.resample('Q').mean()
-
-print(concconf)
+plt.show()
