@@ -38,4 +38,6 @@ confnorm.info()
 ax = plt.gca()
 #concconf.plot(kind='line', color='blue', ax=ax)
 confnorm.plot(kind='line', y='CONCCONF Index Normalized', color='green', ax=ax)
+
 plt.show()
+

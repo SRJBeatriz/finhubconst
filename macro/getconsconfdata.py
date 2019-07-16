@@ -26,6 +26,8 @@ concconf = concconf.reset_index()
 concconf = concconf.set_index('TRADE_DATE')
 concconf = concconf.resample('Q').mean()
 
+# Normalized series Consumer Confidence
+
 x = np.array(concconf['CONCCONF Index'])
 ccnorm = preprocessing.normalize([x])
 ccnorm = ccnorm.reshape(-1,1)
@@ -41,5 +43,4 @@ confnorm.info()
 ax = plt.gca()
 #concconf.plot(kind='line', color='blue', ax=ax)
 confnorm.plot(kind='line', y='CONCCONF Index Normalized', color='green', ax=ax)
-
 plt.show()
