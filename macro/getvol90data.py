@@ -22,18 +22,18 @@ df = bbg.fetch_series(securities=['SPX Index', 'IBOV Index'],
 
 volSPX_90 = pd.DataFrame(data=df['SPX Index'])
 volSPX_90 = volSPX_90.droplevel('FIELD')
-volSPX_90 = volSPX_90.resample('Q').mean()
+volSPX_90 = volSPX_90.resample('Q').last()
 
 volIBOV_90 = pd.DataFrame(data=df['IBOV Index'])
 volIBOV_90 = volIBOV_90.droplevel('FIELD')
-volIBOV_90 = volIBOV_90.resample('Q').mean()
+volIBOV_90 = volIBOV_90.resample('Q').last()
 
 ax = plt.gca()
 
 volSPX_90.plot(kind='line', color='blue', ax=ax)
 volIBOV_90.plot(kind='line', color='green', ax=ax)
 
-#plt.show()
+plt.show()
 
 # Normalized series SPX
 
