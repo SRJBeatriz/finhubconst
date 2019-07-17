@@ -30,18 +30,17 @@ consbr = consbr.resample('Q').mean()
 
 x = np.array(consbr['BZFGCCSA Index'])
 x = x.reshape(-1,1)
-
 min_max_scaler = preprocessing.MinMaxScaler()
 x_scaled = min_max_scaler.fit_transform(x)
 
-confnorm = concconf
-confnorm['CONCCONF Normalized'] = ''
-confnorm['CONCCONF Normalized'] = x_scaled
-confnorm = confnorm.drop('CONCCONF Index', axis=1)
+consbrnorm = consbr
+consbrnorm['BZFGCCSA Normalized'] = ''
+consbrnorm['BZFGCCSA Normalized'] = x_scaled
+consbrnorm = consbrnorm.drop('BZFGCCSA Index', axis=1)
 
-#confnorm.info()
-#print(confnorm)
+#consbrnorm.info()
+#print(consbrnorm)
 
 ax = plt.gca()
-confnorm.plot(kind='line', y='CONCCONF Normalized', color='green', ax=ax)
+consbrnorm.plot(kind='line', y='BZFGCCSA Normalized', color='green', ax=ax)
 plt.show()
