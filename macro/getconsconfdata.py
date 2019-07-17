@@ -12,7 +12,7 @@ bbg = BBG()
 # Conference Board Consumer Confidence SA 1985=100
 #   Original Date: '28-fev-1967'
 
-start_date = pd.to_datetime('30-jan-2015')
+start_date = pd.to_datetime('01-jan-2010')
 end_date = pd.to_datetime('15-jun-2019')
 
 df = bbg.fetch_series(securities=['CONCCONF Index'],
@@ -29,18 +29,19 @@ concconf = concconf.resample('Q').mean()
 # Normalized series Consumer Confidence
 
 x = np.array(concconf['CONCCONF Index'])
-ccnorm = preprocessing.normalize([x])
-ccnorm = ccnorm.reshape(-1,1)
+x = x.reshape(-1,1)
+
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scaled = min_max_scaler.fit_transform(x)
 
 confnorm = concconf
-confnorm['CONCCONF Index Normalized'] = ''
-confnorm['CONCCONF Index Normalized'] = ccnorm
-confnorm.info()
+confnorm['CONCCONF Normalized'] = ''
+confnorm['CONCCONF Normalized'] = x_scaled
+confnorm = confnorm.drop('CONCCONF Index', axis=1)
 
-#print(ccnorm)
+#confnorm.info()
 #print(confnorm)
 
 ax = plt.gca()
-#concconf.plot(kind='line', color='blue', ax=ax)
-confnorm.plot(kind='line', y='CONCCONF Index Normalized', color='green', ax=ax)
+confnorm.plot(kind='line', y='CONCCONF Normalized', color='green', ax=ax)
 plt.show()
